@@ -3,7 +3,7 @@ package br.com.maisunifacisa.models;
 
 import br.com.maisunifacisa.enums.TipoMidia;
 
-public class Midia {
+public abstract class Midia {
     private String titulo;
     private String artista;
     private int duracao;
