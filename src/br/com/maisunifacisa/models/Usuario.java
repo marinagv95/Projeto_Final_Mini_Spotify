@@ -9,6 +9,10 @@ public class Usuario {
         this.email = email;
     }
 
+    public Usuario() {
+    }
+
+
     public String getNome() {
         return nome;
     }

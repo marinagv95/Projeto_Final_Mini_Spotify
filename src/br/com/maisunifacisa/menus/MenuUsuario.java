@@ -1,10 +1,15 @@
 package br.com.maisunifacisa.menus;
 
+import br.com.maisunifacisa.models.Sistema;
+import br.com.maisunifacisa.models.Usuario;
+
 import java.util.Scanner;
 
 public class MenuUsuario {
     SubmenuMidiasUsuario submenuMidiasUsuario = new SubmenuMidiasUsuario();
     SubmenuPlaylistUsuario submenuPlaylistUsuario = new SubmenuPlaylistUsuario();
+    Sistema sistema = new Sistema();
+
     public void exibirMenuUsuario(Scanner sc){
 
         int opcao = -1;
@@ -22,7 +27,15 @@ public class MenuUsuario {
 
             switch (opcao){
                 case 1:
-                    System.out.println("Criando usuario");
+                    System.out.print("Digite o nome do usuário: ");
+                    String nome = sc.nextLine();
+                    System.out.print("Digite um e-mail válido: ");
+                    String email = sc.nextLine();
+                    Usuario usuario = new Usuario(nome, email);
+                    sistema.criarUsuario(usuario);
+                    System.out.println("Usuário adicionado com sucesso");
+
+
                     break;
                 case 2:
                     submenuPlaylistUsuario.exibirSubmenuPlaylist(sc);
