@@ -1,7 +1,7 @@
 package br.com.maisunifacisa.models;
 
 
-import br.com.maisunifacisa.enums.TipoMidia;
+
 
 public abstract class Midia {
     private String titulo;
