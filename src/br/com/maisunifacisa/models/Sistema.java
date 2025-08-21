@@ -43,21 +43,22 @@ public class Sistema {
         this.musicas = musicas;
     }
 
-    public void novoUsuario(Scanner sc){
+    public void criarUsuario(Scanner sc){
         System.out.print("Digite o nome do usuário: ");
         String nome = sc.nextLine();
         System.out.print("Digite um e-mail válido: ");
         String email = sc.nextLine();
         Usuario usuario = new Usuario(nome, email);
-       criarUsuario(usuario);
+        adicionarUsuario(usuario);
         System.out.println("Usuário adicionado com sucesso");
 
     }
 
-    public void criarUsuario(Usuario usuario) {
+    public void adicionarUsuario(Usuario usuario) {
         usuarios.add(usuario);
 
     }
+
 
     public String listarTodosUsuarios() {
         String retorno = "";
@@ -86,7 +87,21 @@ public class Sistema {
     }
 
 
-    public void criarPlaylist(Playlist playlist) {
+    public void listarPlaylistUsuario(Scanner sc){
+        System.out.print("Digite o e-mail do usuário: ");
+        String emailUsuario = sc.nextLine();
+
+        if (getPlaylists().isEmpty()) {
+            System.out.println("Você não tem nenhuma playlist cadastrada!");
+        } else if (verificarUsuarioExiste(emailUsuario)) {
+            System.out.println(listarPlaylistDoUsuario(emailUsuario));
+        } else {
+            System.out.println("Digite um e-mail válido!");
+        }
+    }
+
+
+    public void adicionarPlaylist(Playlist playlist) {
         playlists.add(playlist);
     }
 

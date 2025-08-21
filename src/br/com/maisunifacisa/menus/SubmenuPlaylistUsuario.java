@@ -31,7 +31,7 @@ public class SubmenuPlaylistUsuario {
                     if(sistema.verificarUsuarioExiste(emailUsuario)){
                         Usuario usuarioEncontrado = sistema.buscarUsuarioPorEmail(emailUsuario);
                         Playlist playlist = new Playlist(nomePlaylist, usuarioEncontrado);
-                        sistema.criarPlaylist(playlist);
+                        sistema.adicionarPlaylist(playlist);
                         System.out.println("Playlist criada com sucesso!");
                     } else{
                         System.out.println("Digite um e-mail válido!");

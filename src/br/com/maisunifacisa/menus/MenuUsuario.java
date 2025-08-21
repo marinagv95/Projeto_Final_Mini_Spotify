@@ -28,9 +28,7 @@ public class MenuUsuario {
 
             switch (opcao) {
                 case 1:
-                    sistema.novoUsuario(sc);
-
-
+                    sistema.criarUsuario(sc);
                     break;
                 case 2:
                     submenuPlaylistUsuario.exibirSubmenuPlaylist(sc, sistema);
@@ -39,16 +37,7 @@ public class MenuUsuario {
                     submenuMidiasUsuario.exibirSubmenuMidias(sc);
                     break;
                 case 4:
-                    System.out.print("Digite o e-mail do usuário: ");
-                    String emailUsuario = sc.nextLine();
-
-                    if (sistema.getPlaylists().isEmpty()) {
-                        System.out.println("Você não tem nenhuma playlist cadastrada!");
-                    } else if (sistema.verificarUsuarioExiste(emailUsuario)) {
-                        System.out.println(sistema.listarPlaylistDoUsuario(emailUsuario));
-                    } else {
-                        System.out.println("Digite um e-mail válido!");
-                    }
+                    sistema.listarPlaylistUsuario(sc);
                     break;
                 case 5:
                     System.out.println("Voltando para o menu principal...");
