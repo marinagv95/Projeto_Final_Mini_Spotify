@@ -152,7 +152,28 @@ public class Sistema {
     }
 
 
+    // Colocar exceptions
+    public void removerPlaylistUsuario(Scanner sc) {
+        System.out.print("Digite o nome da playlist para remover: ");
+        String nomePlaylist = sc.nextLine();
+        removerPlaylist(nomePlaylist);
+        System.out.println("Playlist removida com sucesso!");
+    }
 
+    public boolean removerPlaylist(String nomePlaylist) {
+        for (Playlist playlist : playlists) {
+            if (playlist.getNome().equalsIgnoreCase(nomePlaylist)) {
+                playlists.remove(playlist);
+                return true;
+            }
+        }
+        return false;
+    }
 
 
 }
+
+
+
+
+

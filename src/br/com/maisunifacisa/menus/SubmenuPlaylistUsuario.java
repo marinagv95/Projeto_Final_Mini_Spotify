@@ -27,7 +27,7 @@ public class SubmenuPlaylistUsuario {
                     break;
 
                 case 2:
-                    System.out.println("Deletando Playlist");
+                    sistema.removerPlaylistUsuario(sc);
 
                     break;
                 case 3:
