@@ -28,13 +28,7 @@ public class MenuUsuario {
 
             switch (opcao) {
                 case 1:
-                    System.out.print("Digite o nome do usuário: ");
-                    String nome = sc.nextLine();
-                    System.out.print("Digite um e-mail válido: ");
-                    String email = sc.nextLine();
-                    Usuario usuario = new Usuario(nome, email);
-                    sistema.criarUsuario(usuario);
-                    System.out.println("Usuário adicionado com sucesso");
+                    sistema.novoUsuario(sc);
 
 
                     break;

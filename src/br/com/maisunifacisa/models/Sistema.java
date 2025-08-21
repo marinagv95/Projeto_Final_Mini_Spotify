@@ -2,6 +2,7 @@ package br.com.maisunifacisa.models;
 
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 
 public class Sistema {
@@ -9,7 +10,7 @@ public class Sistema {
     ArrayList<Playlist> playlists = new ArrayList<>();
     ArrayList<Musica> musicas = new ArrayList<>();
 
-    public Sistema(ArrayList<Usuario> usuarios, ArrayList<Playlist> playlists, ArrayList<Musica> musicas) {
+    public Sistema( ArrayList<Usuario> usuarios, ArrayList<Playlist> playlists, ArrayList<Musica> musicas) {
         this.usuarios = usuarios;
         this.playlists = playlists;
         this.musicas = musicas;
@@ -40,6 +41,17 @@ public class Sistema {
 
     public void setMusicas(ArrayList<Musica> musicas) {
         this.musicas = musicas;
+    }
+
+    public void novoUsuario(Scanner sc){
+        System.out.print("Digite o nome do usuário: ");
+        String nome = sc.nextLine();
+        System.out.print("Digite um e-mail válido: ");
+        String email = sc.nextLine();
+        Usuario usuario = new Usuario(nome, email);
+       criarUsuario(usuario);
+        System.out.println("Usuário adicionado com sucesso");
+
     }
 
     public void criarUsuario(Usuario usuario) {
