@@ -23,19 +23,7 @@ public class SubmenuPlaylistUsuario {
 
             switch (opcao) {
                 case 1:
-                    System.out.print("Digite um nome para a Playlist: ");
-                    String nomePlaylist = sc.nextLine();
-                    System.out.print("Digite o e-mail do usuário para atribuir a playlist: ");
-                    String emailUsuario = sc.nextLine();
-
-                    if(sistema.verificarUsuarioExiste(emailUsuario)){
-                        Usuario usuarioEncontrado = sistema.buscarUsuarioPorEmail(emailUsuario);
-                        Playlist playlist = new Playlist(nomePlaylist, usuarioEncontrado);
-                        sistema.adicionarPlaylist(playlist);
-                        System.out.println("Playlist criada com sucesso!");
-                    } else{
-                        System.out.println("Digite um e-mail válido!");
-                    }
+                    sistema.criarPlaylist(sc);
 
                     break;
 

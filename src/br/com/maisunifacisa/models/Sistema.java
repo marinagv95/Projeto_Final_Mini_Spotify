@@ -10,7 +10,7 @@ public class Sistema {
     ArrayList<Playlist> playlists = new ArrayList<>();
     ArrayList<Musica> musicas = new ArrayList<>();
 
-    public Sistema( ArrayList<Usuario> usuarios, ArrayList<Playlist> playlists, ArrayList<Musica> musicas) {
+    public Sistema(ArrayList<Usuario> usuarios, ArrayList<Playlist> playlists, ArrayList<Musica> musicas) {
         this.usuarios = usuarios;
         this.playlists = playlists;
         this.musicas = musicas;
@@ -43,7 +43,7 @@ public class Sistema {
         this.musicas = musicas;
     }
 
-    public void criarUsuario(Scanner sc){
+    public void criarUsuario(Scanner sc) {
         System.out.print("Digite o nome do usuário: ");
         String nome = sc.nextLine();
         System.out.print("Digite um e-mail válido: ");
@@ -87,17 +87,55 @@ public class Sistema {
     }
 
 
-    public void listarPlaylistUsuario(Scanner sc){
+    public void listarPlaylistUsuario(Scanner sc) {
         System.out.print("Digite o e-mail do usuário: ");
         String emailUsuario = sc.nextLine();
+        verificarPlaylistCadastrada(emailUsuario);
 
+    }
+
+    // implementar exception
+    public void verificarPlaylistCadastrada(String emailUsuario) {
         if (getPlaylists().isEmpty()) {
             System.out.println("Você não tem nenhuma playlist cadastrada!");
         } else if (verificarUsuarioExiste(emailUsuario)) {
-            System.out.println(listarPlaylistDoUsuario(emailUsuario));
+            System.out.println(playlistsDoUsuario(emailUsuario));
         } else {
             System.out.println("Digite um e-mail válido!");
         }
+    }
+
+    public String playlistsDoUsuario(String email) {
+        String retorno = "";
+        for (Playlist playlist : playlists) {
+            if (playlist.getUsuario().getEmail().equals(email)) {
+                retorno += playlist + "\n";
+            }
+        }
+        return retorno;
+    }
+
+
+    public void criarPlaylist(Scanner sc) {
+        System.out.print("Digite um nome para a Playlist: ");
+        String nomePlaylist = sc.nextLine();
+        System.out.print("Digite o e-mail do usuário para atribuir a playlist: ");
+        String emailUsuario = sc.nextLine();
+        verificarUsuarioExistente(nomePlaylist, emailUsuario);
+
+    }
+
+    //implementar exception
+    public void verificarUsuarioExistente(String nomePlaylist, String emailUsuario) {
+        if (verificarUsuarioExiste(emailUsuario)) {
+            Usuario usuarioEncontrado = buscarUsuarioPorEmail(emailUsuario);
+            Playlist playlist = new Playlist(nomePlaylist, usuarioEncontrado);
+            adicionarPlaylist(playlist);
+            System.out.println("Playlist criada com sucesso!");
+        } else {
+            System.out.println("Digite um e-mail válido!");
+        }
+
     }
 
 
@@ -109,17 +147,6 @@ public class Sistema {
         String retorno = "";
         for (int i = 0; i < playlists.size(); i++) {
             retorno += (i + 1) + " - " + playlists.get(i).toString() + "\n";
-        }
-        return retorno;
-    }
-
-
-    public String listarPlaylistDoUsuario(String email) {
-        String retorno = "";
-        for (Playlist playlist : playlists) {
-            if (playlist.getUsuario().getEmail().equals(email)) {
-                retorno += playlist + "\n";
-            }
         }
         return retorno;
     }
