@@ -173,8 +173,8 @@ public class Sistema {
 
 
     public void atualizarNomePlaylist(Scanner sc) {
-        System.out.print("Digite o nome do usuário para acessar as playlists: ");
-        String nomeUsuario = sc.nextLine();
+        System.out.print("Digite o email do usuário para acessar as playlists: ");
+        String emailUsuario = sc.nextLine();
         System.out.print("Digite o nome da playlist para alterar: ");
         String nomePlaylist = sc.nextLine();
         System.out.print("Digite o novo nome: ");
@@ -182,14 +182,14 @@ public class Sistema {
 
 
 
-        atualizarNomePlaylist(nomeUsuario, nomePlaylist, novoNomePlaylist);
+        atualizarNomePlaylist(emailUsuario, nomePlaylist, novoNomePlaylist);
 
     }
 
     //Colocar Exceptions
-    public void atualizarNomePlaylist(String nomeUsuario, String nomePlaylist, String novoNomePlaylist) {
+    public void atualizarNomePlaylist(String emailUsuario, String nomePlaylist, String novoNomePlaylist) {
         for (Playlist playlist : playlists) {
-            if (playlist.getNome().equalsIgnoreCase(nomePlaylist) && playlist.getUsuario().equals(nomeUsuario)) {
+            if (playlist.getNome().equalsIgnoreCase(nomePlaylist) && playlist.getUsuario().getEmail().equals(emailUsuario)) {
                 playlist.setNome(novoNomePlaylist);
                 System.out.println("Nome atualizado com sucesso!");
 
