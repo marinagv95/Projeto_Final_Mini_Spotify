@@ -7,6 +7,14 @@ public class Playlist {
     private String nome;
     private Usuario usuario;
     private ArrayList<Musica> musicas;
+    private int duracaoTotal;
+
+    public Playlist(String nome, Usuario usuario, int duracaoTotal) {
+        this.nome = nome;
+        this.usuario = usuario;
+        this.duracaoTotal = duracaoTotal;
+        this.musicas = new ArrayList<>();
+    }
 
     public Playlist(String nome, Usuario usuario) {
         this.nome = nome;
@@ -40,6 +48,14 @@ public class Playlist {
 
     public void setMusicas(ArrayList<Musica> musicas) {
         this.musicas = musicas;
+    }
+
+    public int getDuracaoTotal() {
+        return duracaoTotal;
+    }
+
+    public void setDuracaoTotal(int duracaoTotal) {
+        this.duracaoTotal = duracaoTotal;
     }
 
     @Override
