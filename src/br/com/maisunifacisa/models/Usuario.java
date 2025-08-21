@@ -1,5 +1,7 @@
 package br.com.maisunifacisa.models;
 
+import java.util.Objects;
+
 public class Usuario {
     private String nome;
     private String email;
@@ -27,6 +29,13 @@ public class Usuario {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Usuario usuario = (Usuario) o;
+        return Objects.equals(email, usuario.email);
     }
 
 

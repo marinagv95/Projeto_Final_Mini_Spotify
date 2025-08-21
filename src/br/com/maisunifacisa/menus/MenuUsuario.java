@@ -1,5 +1,6 @@
 package br.com.maisunifacisa.menus;
 
+
 import br.com.maisunifacisa.models.Sistema;
 import br.com.maisunifacisa.models.Usuario;
 
@@ -8,13 +9,13 @@ import java.util.Scanner;
 public class MenuUsuario {
     SubmenuMidiasUsuario submenuMidiasUsuario = new SubmenuMidiasUsuario();
     SubmenuPlaylistUsuario submenuPlaylistUsuario = new SubmenuPlaylistUsuario();
-    Sistema sistema = new Sistema();
 
-    public void exibirMenuUsuario(Scanner sc){
+
+    public void exibirMenuUsuario(Scanner sc, Sistema sistema) {
 
         int opcao = -1;
 
-        while (opcao != 5){
+        while (opcao != 5) {
             System.out.println("-".repeat(10) + "MENU DE USUÁRIOS" + "-".repeat(10));
             System.out.println("1 - Criar Usuário");
             System.out.println("2 - Gerenciar sua Playlist");
@@ -25,7 +26,7 @@ public class MenuUsuario {
             opcao = sc.nextInt();
             sc.nextLine();
 
-            switch (opcao){
+            switch (opcao) {
                 case 1:
                     System.out.print("Digite o nome do usuário: ");
                     String nome = sc.nextLine();
@@ -38,13 +39,22 @@ public class MenuUsuario {
 
                     break;
                 case 2:
-                    submenuPlaylistUsuario.exibirSubmenuPlaylist(sc);
+                    submenuPlaylistUsuario.exibirSubmenuPlaylist(sc, sistema);
                     break;
                 case 3:
                     submenuMidiasUsuario.exibirSubmenuMidias(sc);
                     break;
                 case 4:
-                    System.out.println("Suas Músicas: blablabla");
+                    System.out.print("Digite o e-mail do usuário: ");
+                    String emailUsuario = sc.nextLine();
+
+                    if (sistema.getPlaylists().isEmpty()) {
+                        System.out.println("Você não tem nenhuma playlist cadastrada!");
+                    } else if (sistema.verificarUsuarioExiste(emailUsuario)) {
+                        System.out.println(sistema.listarPlaylistDoUsuario(emailUsuario));
+                    } else {
+                        System.out.println("Digite um e-mail válido!");
+                    }
                     break;
                 case 5:
                     System.out.println("Voltando para o menu principal...");
@@ -54,9 +64,7 @@ public class MenuUsuario {
             }
 
 
-
         }
-
 
 
     }

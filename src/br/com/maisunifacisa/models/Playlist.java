@@ -6,13 +6,17 @@ import java.util.ArrayList;
 public class Playlist {
     private String nome;
     private Usuario usuario;
-    private ArrayList<Musica> musicas = new ArrayList<>();
+    private ArrayList<Musica> musicas;
 
-    public Playlist(String nome, Usuario usuario, ArrayList<Musica> musicas) {
+    public Playlist(String nome, Usuario usuario) {
         this.nome = nome;
         this.usuario = usuario;
-        this.musicas = musicas;
+        this.musicas = new ArrayList<>();
     }
+
+    public Playlist() {
+    }
+
 
     public String getNome() {
         return nome;

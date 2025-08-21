@@ -1,10 +1,12 @@
 import br.com.maisunifacisa.menus.MenuUsuario;
+import br.com.maisunifacisa.models.Sistema;
 
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        Sistema sistema = new Sistema();
 
         MenuUsuario menuUsuario = new MenuUsuario();
 
@@ -20,8 +22,7 @@ public class Main {
 
             switch (opcao) {
                 case 1:
-                    System.out.println("User");
-                    menuUsuario.exibirMenuUsuario(sc);
+                    menuUsuario.exibirMenuUsuario(sc, sistema);
                     break;
                 case 2:
                     System.out.println("Catalogo");
