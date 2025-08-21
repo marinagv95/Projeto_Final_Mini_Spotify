@@ -27,11 +27,11 @@ public class SubmenuPlaylistUsuario {
                     break;
 
                 case 2:
-                    sistema.removerPlaylistUsuario(sc);
+                    sistema.removerPlaylist(sc);
 
                     break;
                 case 3:
-                    System.out.println("Alterando Playlist");
+                   sistema.atualizarNomePlaylist(sc);
 
                     break;
                 case 4:

@@ -153,21 +153,50 @@ public class Sistema {
 
 
     // Colocar exceptions
-    public void removerPlaylistUsuario(Scanner sc) {
+    public void removerPlaylist(Scanner sc) {
         System.out.print("Digite o nome da playlist para remover: ");
         String nomePlaylist = sc.nextLine();
         removerPlaylist(nomePlaylist);
-        System.out.println("Playlist removida com sucesso!");
+
     }
 
     public boolean removerPlaylist(String nomePlaylist) {
         for (Playlist playlist : playlists) {
             if (playlist.getNome().equalsIgnoreCase(nomePlaylist)) {
                 playlists.remove(playlist);
+                System.out.println("Playlist removida com sucesso!");
                 return true;
             }
         }
         return false;
+    }
+
+
+    public void atualizarNomePlaylist(Scanner sc) {
+        System.out.print("Digite o nome do usuário para acessar as playlists: ");
+        String nomeUsuario = sc.nextLine();
+        System.out.print("Digite o nome da playlist para alterar: ");
+        String nomePlaylist = sc.nextLine();
+        System.out.print("Digite o novo nome: ");
+        String novoNomePlaylist = sc.nextLine();
+
+
+
+        atualizarNomePlaylist(nomeUsuario, nomePlaylist, novoNomePlaylist);
+
+    }
+
+    //Colocar Exceptions
+    public void atualizarNomePlaylist(String nomeUsuario, String nomePlaylist, String novoNomePlaylist) {
+        for (Playlist playlist : playlists) {
+            if (playlist.getNome().equalsIgnoreCase(nomePlaylist) && playlist.getUsuario().equals(nomeUsuario)) {
+                playlist.setNome(novoNomePlaylist);
+                System.out.println("Nome atualizado com sucesso!");
+
+            } else{
+                System.out.println("Playlist não encontrada para esse Usuário!");
+            }
+        }
     }
 
 
