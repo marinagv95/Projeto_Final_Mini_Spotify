@@ -24,7 +24,6 @@ public class SubmenuPlaylistUsuario {
             switch (opcao) {
                 case 1:
                     sistema.criarPlaylist(sc);
-
                     break;
 
                 case 2:
