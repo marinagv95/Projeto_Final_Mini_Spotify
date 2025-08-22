@@ -1,6 +1,7 @@
 package br.com.maisunifacisa.models;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class Playlist {
@@ -56,6 +57,19 @@ public class Playlist {
 
     public void setDuracaoTotal(int duracaoTotal) {
         this.duracaoTotal = duracaoTotal;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Playlist playlist = (Playlist) o;
+        return Objects.equals(musicas, playlist.musicas);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(musicas);
     }
 
     @Override

@@ -13,12 +13,13 @@ public class Sistema {
     ArrayList<Usuario> usuarios = new ArrayList<>();
     ArrayList<Playlist> playlists = new ArrayList<>();
     ArrayList<Musica> musicas = new ArrayList<>();
+
     ArrayList<Midia> midias = new ArrayList<>();
 
     public Sistema(ArrayList<Usuario> usuarios, ArrayList<Playlist> playlists, ArrayList<Musica> musicas) {
         this.usuarios = usuarios;
         this.playlists = playlists;
-        this.musicas = musicas;
+
     }
 
     public Sistema() {
@@ -40,13 +41,6 @@ public class Sistema {
         this.playlists = playlists;
     }
 
-    public ArrayList<Musica> getMusicas() {
-        return musicas;
-    }
-
-    public void setMusicas(ArrayList<Musica> musicas) {
-        this.musicas = musicas;
-    }
 
     public void criarUsuario(Scanner sc) {
         System.out.print("Digite o nome do usuário: ");
@@ -298,6 +292,56 @@ public class Sistema {
             retorno.append(i + 1).append(" - ").append(midias.get(i).toString()).append("\n");
         }
         return retorno.toString();
+    }
+
+    public Playlist buscarPlaylistPorNome(String nomePlaylist) {
+        for (Playlist playlist : playlists) {
+            if (playlist.getNome().equalsIgnoreCase(nomePlaylist)) {
+                return playlist;
+            }
+        }
+        return null;
+    }
+
+
+    public Musica buscarMusicaPorTitulo(String tituloMusica) {
+        for (Playlist playlist : playlists) {
+            for (Musica musica : playlist.getMusicas()) {
+                if (musica.getTitulo().equalsIgnoreCase(tituloMusica)) {
+                    return musica;
+                }
+            }
+        }
+        return null;
+    }
+
+    public void adicionarMusicaAPlaylist(Scanner sc) {
+        System.out.print("Digite o título da música para adicionar: ");
+        String tituloMusica = sc.nextLine();
+
+        System.out.print("Digite o nome da playlist: ");
+        String nomePlaylist = sc.nextLine();
+
+        Playlist playlist = buscarPlaylistPorNome(nomePlaylist);
+
+        if (playlist == null) {
+            System.out.println("Playlist não encontrada!");
+        } else {
+            Musica musica = null;
+            for (Midia midia : midias) { // lista global de mídias
+                if (midia instanceof Musica && midia.getTitulo().equalsIgnoreCase(tituloMusica)) {
+                    musica = (Musica) midia;
+                    break;
+                }
+            }
+
+            if (musica == null) {
+                System.out.println("Música não encontrada!");
+            } else {
+                playlist.getMusicas().add(musica);
+                System.out.println("Música adicionada com sucesso na playlist!");
+            }
+        }
     }
 
 
