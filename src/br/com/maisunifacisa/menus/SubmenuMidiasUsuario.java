@@ -10,7 +10,7 @@ public class SubmenuMidiasUsuario {
 
         while (opcao != 4) {
             System.out.println("1 - Criar Mídia");
-            System.out.println("2 - Remover Mídia");
+            System.out.println("2 - Remover Música");
             System.out.println("3 - Adicionar Música a Playlist");
             System.out.println("4 - Voltar para o Menu de Usuários");
             System.out.print("Digite uma Opção: ");
@@ -23,7 +23,7 @@ public class SubmenuMidiasUsuario {
 
                     break;
                 case 2:
-                    System.out.println("Removendo mídias");
+                    sistema.removerMusica(sc);
                     break;
                 case 3:
                     sistema.adicionarMusicaAPlaylist(sc);

@@ -160,15 +160,16 @@ public class Sistema {
     }
 
     public boolean removerPlaylist(String nomePlaylist) {
-        for (Playlist playlist : playlists) {
-            if (playlist.getNome().equalsIgnoreCase(nomePlaylist)) {
-                playlists.remove(playlist);
+        for (int i = 0; i < playlists.size(); i++) {
+            if (playlists.get(i).getNome().equalsIgnoreCase(nomePlaylist)) {
+                playlists.remove(i);
                 System.out.println("Playlist removida com sucesso!");
                 return true;
             }
         }
         return false;
     }
+
 
 
     public void atualizarNomePlaylist(Scanner sc) {
@@ -328,7 +329,7 @@ public class Sistema {
             System.out.println("Playlist não encontrada!");
         } else {
             Musica musica = null;
-            for (Midia midia : midias) { // lista global de mídias
+            for (Midia midia : midias) {
                 if (midia instanceof Musica && midia.getTitulo().equalsIgnoreCase(tituloMusica)) {
                     musica = (Musica) midia;
                     break;
@@ -343,6 +344,46 @@ public class Sistema {
             }
         }
     }
+
+
+    public void removerMusica(Scanner sc) {
+        System.out.print("Digite o nome da música para remover: ");
+        String nomeMusica = sc.nextLine();
+
+        System.out.print("Digite o nome da playlist: ");
+        String nomePlaylist = sc.nextLine();
+
+        Playlist playlist = buscarPlaylistPorNome(nomePlaylist);
+
+        if (playlist == null) {
+            System.out.println("Playlist não encontrada!");
+        } else {
+            removerMusica(nomeMusica, playlist);
+        }
+    }
+
+
+    public boolean removerMusica(String nomeMusica, Playlist playlist) {
+        if (playlist == null) {
+            System.out.println("Playlist não encontrada!");
+            return false;
+        }
+
+        ArrayList<Musica> musicas = playlist.getMusicas();
+
+        for (int i = 0; i < musicas.size(); i++) {
+            if (musicas.get(i).getTitulo().equalsIgnoreCase(nomeMusica.trim())) {
+                musicas.remove(i);
+                System.out.println("Música removida da playlist com sucesso!");
+                return true;
+            }
+        }
+
+        System.out.println("Música não encontrada na playlist!");
+        return false;
+    }
+
+
 
 
 }
