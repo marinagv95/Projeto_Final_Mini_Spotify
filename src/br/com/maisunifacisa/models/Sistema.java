@@ -5,6 +5,7 @@ import br.com.maisunifacisa.enums.GeneroMusical;
 import br.com.maisunifacisa.enums.TipoMidia;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
@@ -215,7 +216,7 @@ public class Sistema {
         int duracao = sc.nextInt();
         sc.nextLine();
 
-        System.out.println("\nSelecione o gênero musical:");
+        System.out.println("Selecione o gênero musical:");
         System.out.println("1 - Rock");
         System.out.println("2 - Pop");
         System.out.println("3 - MPB");
@@ -225,19 +226,9 @@ public class Sistema {
         System.out.print("Digite uma Opção: ");
         int opcaoGenero = sc.nextInt();
         sc.nextLine();
+        GeneroMusical generoMusical = escolherGeneroMusical(opcaoGenero);
 
-        GeneroMusical generoMusical = GeneroMusical.OUTRO;
-        switch (opcaoGenero) {
-            case 1: generoMusical = GeneroMusical.ROCK; break;
-            case 2: generoMusical = GeneroMusical.POP; break;
-            case 3: generoMusical = GeneroMusical.MPB; break;
-            case 4: generoMusical = GeneroMusical.JAZZ; break;
-            case 5: generoMusical = GeneroMusical.CLASSICA; break;
-            case 6: generoMusical = GeneroMusical.OUTRO; break;
-            default: System.out.println("Opção inválida. Definido como OUTRO.");
-        }
-
-        System.out.println("\nQual o tipo da mídia?");
+        System.out.println("Qual o tipo da mídia?");
         System.out.println("1 - Música");
         System.out.println("2 - Podcast");
         System.out.println("3 - Audiobook");
@@ -245,19 +236,57 @@ public class Sistema {
         int opcaoMidia = sc.nextInt();
         sc.nextLine();
 
-        if (opcaoMidia == 1) {
-            Midia midia = new Musica(titulo, artista, duracao, TipoMidia.MUSICA, generoMusical);
-            criarMidia(midia);
-        } else if (opcaoMidia == 2) {
-            Midia midia = new Podcast(titulo, artista, duracao, TipoMidia.PODCAST);
-            criarMidia(midia);
-        } else if (opcaoMidia == 3) {
-            Midia midia = new Audiobook(titulo, artista, duracao, TipoMidia.AUDIOBOOK);
-            criarMidia(midia);
-        } else {
-            System.out.println("Opção inválida. Nenhuma mídia criada.");
+        criarMidia(opcaoMidia, titulo, artista, duracao, generoMusical);
+
+    }
+
+    public void criarMidia(int opcaoMidia, String titulo, String artista, int duracao, GeneroMusical generoMusical) {
+        try {
+            if (opcaoMidia == 1) {
+                Midia midia = new Musica(titulo, artista, duracao, TipoMidia.MUSICA, generoMusical);
+                criarMidia(midia);
+            } else if (opcaoMidia == 2) {
+                Midia midia = new Podcast(titulo, artista, duracao, TipoMidia.PODCAST);
+                criarMidia(midia);
+            } else if (opcaoMidia == 3) {
+                Midia midia = new Audiobook(titulo, artista, duracao, TipoMidia.AUDIOBOOK);
+                criarMidia(midia);
+            }
+
+        } catch (InputMismatchException e) {
+            System.out.println("Digite uma opção válida!");
         }
     }
+
+
+    public GeneroMusical escolherGeneroMusical(int opcaoGenero) {
+
+        GeneroMusical generoMusical = GeneroMusical.OUTRO;
+        switch (opcaoGenero) {
+            case 1:
+                generoMusical = GeneroMusical.ROCK;
+                break;
+            case 2:
+                generoMusical = GeneroMusical.POP;
+                break;
+            case 3:
+                generoMusical = GeneroMusical.MPB;
+                break;
+            case 4:
+                generoMusical = GeneroMusical.JAZZ;
+                break;
+            case 5:
+                generoMusical = GeneroMusical.CLASSICA;
+                break;
+            case 6:
+                generoMusical = GeneroMusical.OUTRO;
+                break;
+            default:
+                System.out.println("Opção inválida. Definido como OUTRO.");
+        }
+        return generoMusical;
+    }
+
 
     public void criarMidia(Midia midia) {
         midias.add(midia);
@@ -270,7 +299,6 @@ public class Sistema {
         }
         return retorno.toString();
     }
-
 
 
 }
