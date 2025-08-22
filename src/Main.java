@@ -1,6 +1,7 @@
 import br.com.maisunifacisa.menus.MenuUsuario;
 import br.com.maisunifacisa.models.Sistema;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -11,8 +12,8 @@ public class Main {
         MenuUsuario menuUsuario = new MenuUsuario();
 
         int opcao = -1;
-
         while (opcao != 3) {
+try{
             System.out.println("-".repeat(10) + "MENU" + "-".repeat(10));
             System.out.println("1 - Usuário ");
             System.out.println("2 - Catálogo de Mídias");
@@ -34,6 +35,11 @@ public class Main {
                 default:
                     System.out.println("Opção inválida!");
             }
+} catch (InputMismatchException e) {
+    System.out.println("Digite uma opção válida!");
+    sc.nextLine();
+
+}
 
 
         }

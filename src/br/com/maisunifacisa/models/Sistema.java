@@ -3,6 +3,9 @@ package br.com.maisunifacisa.models;
 
 import br.com.maisunifacisa.enums.GeneroMusical;
 import br.com.maisunifacisa.enums.TipoMidia;
+import br.com.maisunifacisa.excecao.EmailInvalidoException;
+import br.com.maisunifacisa.excecao.PlaylistVaziaException;
+import br.com.maisunifacisa.excecao.UsuarioInvalidoException;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -12,8 +15,6 @@ import java.util.Scanner;
 public class Sistema {
     ArrayList<Usuario> usuarios = new ArrayList<>();
     ArrayList<Playlist> playlists = new ArrayList<>();
-    ArrayList<Musica> musicas = new ArrayList<>();
-
     ArrayList<Midia> midias = new ArrayList<>();
 
     public Sistema(ArrayList<Usuario> usuarios, ArrayList<Playlist> playlists, ArrayList<Musica> musicas) {
@@ -42,16 +43,30 @@ public class Sistema {
     }
 
 
-    public void criarUsuario(Scanner sc) {
+    public void criarUsuario(Scanner sc) throws EmailInvalidoException {
         System.out.print("Digite o nome do usuário: ");
         String nome = sc.nextLine();
         System.out.print("Digite um e-mail válido: ");
         String email = sc.nextLine();
-        Usuario usuario = new Usuario(nome, email);
-        adicionarUsuario(usuario);
-        System.out.println("Usuário adicionado com sucesso");
+        try {
+            validarEmail(email);
+            System.out.println("Email válido!");
+            Usuario usuario = new Usuario(nome, email);
+            adicionarUsuario(usuario);
+            System.out.println("Usuário adicionado com sucesso");
+
+        } catch (EmailInvalidoException e) {
+            System.out.println(e.getMessage());
+        }
 
     }
+
+    public void validarEmail(String email) throws EmailInvalidoException {
+        if (!email.contains("@")) {
+            throw new EmailInvalidoException("Email em formato inválido'.");
+        }
+    }
+
 
     public void adicionarUsuario(Usuario usuario) {
         usuarios.add(usuario);
@@ -86,23 +101,27 @@ public class Sistema {
     }
 
 
-    public void listarPlaylistUsuario(Scanner sc) {
+    public void listarPlaylistUsuario(Scanner sc) throws PlaylistVaziaException, UsuarioInvalidoException {
         System.out.print("Digite o e-mail do usuário: ");
         String emailUsuario = sc.nextLine();
         verificarPlaylistCadastrada(emailUsuario);
 
     }
 
-    // implementar exception
-    public void verificarPlaylistCadastrada(String emailUsuario) {
-        if (getPlaylists().isEmpty()) {
-            System.out.println("Você não tem nenhuma playlist cadastrada!");
-        } else if (verificarUsuarioExiste(emailUsuario)) {
-            System.out.println(listarPlaylistUsuario(emailUsuario));
-        } else {
-            System.out.println("Digite um e-mail válido!");
+    public void verificarPlaylistCadastrada(String emailUsuario)
+            throws UsuarioInvalidoException, PlaylistVaziaException {
+
+        if (!verificarUsuarioExiste(emailUsuario)) {
+            throw new UsuarioInvalidoException("Digite um e-mail válido!");
         }
+
+        if (getPlaylists().isEmpty()) {
+            throw new PlaylistVaziaException("Você não tem nenhuma playlist cadastrada!");
+        }
+
+        System.out.println(listarPlaylistUsuario(emailUsuario));
     }
+
 
     public String listarPlaylistUsuario(String email) {
         String retorno = "";
@@ -169,7 +188,6 @@ public class Sistema {
         }
         return false;
     }
-
 
 
     public void atualizarNomePlaylist(Scanner sc) {
@@ -382,8 +400,6 @@ public class Sistema {
         System.out.println("Música não encontrada na playlist!");
         return false;
     }
-
-
 
 
 }
