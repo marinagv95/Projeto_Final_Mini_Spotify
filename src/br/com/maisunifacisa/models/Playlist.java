@@ -59,6 +59,15 @@ public class Playlist {
         this.duracaoTotal = duracaoTotal;
     }
 
+    public int duracaoTotal() {
+        int total = 0;
+        for (Musica musica : musicas) {
+            total += musica.getDuracao();
+        }
+        return total;
+    }
+
+
 
     @Override
     public boolean equals(Object o) {
@@ -78,6 +87,8 @@ public class Playlist {
                 "nome='" + nome + '\'' +
                 ", usuario=" + usuario +
                 ", musicas=" + musicas +
+                ", duração da playlist=" + duracaoTotal() +
+                " min" +
                 '}';
     }
 }
