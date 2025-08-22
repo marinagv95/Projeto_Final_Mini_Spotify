@@ -2,30 +2,45 @@ package br.com.maisunifacisa.menus;
 
 
 import br.com.maisunifacisa.models.Sistema;
-import br.com.maisunifacisa.models.Usuario;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class MenuUsuario {
-    SubmenuMidiasUsuario submenuMidiasUsuario = new SubmenuMidiasUsuario();
-    SubmenuPlaylistUsuario submenuPlaylistUsuario = new SubmenuPlaylistUsuario();
+    private final SubmenuMidiasUsuario submenuMidiasUsuario;
+    private final SubmenuPlaylistUsuario submenuPlaylistUsuario;
+    private final Sistema sistema;
 
+    public MenuUsuario() {
+        this.submenuMidiasUsuario = new SubmenuMidiasUsuario();
+        this.submenuPlaylistUsuario = new SubmenuPlaylistUsuario();
+        this.sistema = new Sistema();
+    }
 
-    public void exibirMenuUsuario(Scanner sc, Sistema sistema) {
+    public void exibirMenuUsuario(Scanner sc) {
 
-        int opcao = -1;
+        int opcao = 0;
 
-        while (opcao != 5) {
-            System.out.println("-".repeat(10) + "MENU DE USUÁRIOS" + "-".repeat(10));
-            System.out.println("1 - Criar Usuário");
-            System.out.println("2 - Gerenciar sua Playlist");
-            System.out.println("3 - Cria Mídia, Remover ou Adicionar Músicas a Playlist");
-            System.out.println("4 - Visualizar suas Playlists");
-            System.out.println("5 - Voltar para o Menu Principal");
-            System.out.print("Digite uma opção: ");
-            opcao = sc.nextInt();
-            sc.nextLine();
+        do {
 
+            System.out.print("""
+                    -----------------------------
+                         [MENU USUÁRIO]
+                    
+                    1 - Criar Usuário
+                    2 - Gerenciar sua Playlist
+                    4 - Visualizar suas Playlists
+                    5 - Voltar para o Menu Principal
+                    
+                    Digite uma opção:\s""");
+
+            try {
+                opcao = sc.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("\nNão pode utilizar letras ou caracteres.\n  [Escolha: 1, 2, 3, 4 ou 5]\n");
+                sc.nextLine();
+                continue;
+            }
             switch (opcao) {
                 case 1:
                     sistema.criarUsuario(sc);
@@ -40,16 +55,13 @@ public class MenuUsuario {
                     sistema.listarPlaylistUsuario(sc);
                     break;
                 case 5:
-                    System.out.println("Voltando para o menu principal...");
+                    System.out.println("\nRetornando para o menu principal...\n");
                     break;
                 default:
-                    System.out.println("Opção inválida!");
+                    System.out.println("\nOpção inválida, tente novamente!\n");
             }
 
-
-        }
-
-
+        } while (opcao != 5);
     }
 
 
