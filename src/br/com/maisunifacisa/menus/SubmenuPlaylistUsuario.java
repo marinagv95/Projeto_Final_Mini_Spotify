@@ -1,6 +1,7 @@
 package br.com.maisunifacisa.menus;
 
 
+import br.com.maisunifacisa.excecao.UsuarioInvalidoException;
 import br.com.maisunifacisa.models.Sistema;
 
 
@@ -47,6 +48,8 @@ public class SubmenuPlaylistUsuario {
             } catch (InputMismatchException e) {
                 System.out.println("Digite uma opção válida!");
                 sc.nextLine();
+            } catch (UsuarioInvalidoException e){
+                System.out.println(e.getMessage());
             }
 
         }
