@@ -2,14 +2,14 @@ package br.com.maisunifacisa.menus;
 
 
 import br.com.maisunifacisa.models.Sistema;
-
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class MenuUsuario {
+
     private final SubmenuMidiasUsuario submenuMidiasUsuario;
     private final SubmenuPlaylistUsuario submenuPlaylistUsuario;
     private final Sistema sistema;
+
 
     public MenuUsuario() {
         this.submenuMidiasUsuario = new SubmenuMidiasUsuario();
@@ -29,16 +29,17 @@ public class MenuUsuario {
                     
                     1 - Criar Usuário
                     2 - Gerenciar sua Playlist
+                    3 - Criar Midia, Remover ou Adicionar Músicas a Playlist
                     4 - Visualizar suas Playlists
                     5 - Voltar para o Menu Principal
                     
                     Digite uma opção:\s""");
 
+            String entrada = sc.nextLine();
             try {
-                opcao = sc.nextInt();
-            } catch (InputMismatchException e) {
+                opcao = Integer.parseInt(entrada.trim());
+            } catch (NumberFormatException e) {
                 System.out.println("\nNão pode utilizar letras ou caracteres.\n  [Escolha: 1, 2, 3, 4 ou 5]\n");
-                sc.nextLine();
                 continue;
             }
             switch (opcao) {

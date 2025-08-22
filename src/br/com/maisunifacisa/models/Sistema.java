@@ -10,10 +10,10 @@ import java.util.Scanner;
 
 
 public class Sistema {
+
     ArrayList<Usuario> usuarios = new ArrayList<>();
     ArrayList<Playlist> playlists = new ArrayList<>();
     ArrayList<Musica> musicas = new ArrayList<>();
-
     ArrayList<Midia> midias = new ArrayList<>();
 
     public Sistema(ArrayList<Usuario> usuarios, ArrayList<Playlist> playlists, ArrayList<Musica> musicas) {
@@ -23,6 +23,7 @@ public class Sistema {
     }
 
     public Sistema() {
+
     }
 
     public ArrayList<Usuario> getUsuarios() {

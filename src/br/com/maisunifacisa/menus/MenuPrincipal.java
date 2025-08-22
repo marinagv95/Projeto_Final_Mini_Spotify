@@ -1,22 +1,16 @@
 package br.com.maisunifacisa.menus;
-
-import br.com.maisunifacisa.models.Sistema;
-
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class MenuPrincipal {
-    private final Scanner sc;
     private final MenuUsuario menuUsuario;
     private final MenuCatalogo menuCatalogo;
 
-    public MenuPrincipal(Scanner sc) {
-        this.sc = sc;
+    public MenuPrincipal() {
         this.menuUsuario = new MenuUsuario();
         this.menuCatalogo = new MenuCatalogo();
     }
 
-    public void exibirMenuPrincipal() {
+    public void exibirMenuPrincipal(Scanner sc) {
         int opcao = 0;
         do {
             System.out.print("""
@@ -28,11 +22,12 @@ public class MenuPrincipal {
                     3 - Sair do Programa
                    
                     Digite uma opção:\s""");
+
+            String entrada = sc.nextLine();
             try {
-                opcao = sc.nextInt();
-            } catch (InputMismatchException e) {
+                opcao = Integer.parseInt(entrada.trim());
+            } catch (NumberFormatException e) {
                 System.out.println("\nNão pode utilizar letras ou caracteres.\n  [Escolha: 1, 2 ou 3]\n");
-                sc.nextLine();
                 continue;
             }
 

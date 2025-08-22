@@ -5,7 +5,9 @@ import java.util.Scanner;
 
 public class MenuCatalogo {
 
-    public void exibirMenuCatalogo(Scanner sc){
+    public MenuCatalogo() {
+    }
+    public void exibirMenuCatalogo(Scanner sc) {
         int opcao = 0;
         do {
 
@@ -20,11 +22,11 @@ public class MenuCatalogo {
                    
                     Digite uma opção:\s""");
 
+            String entrada = sc.nextLine();
             try {
-                opcao = sc.nextInt();
-            } catch (InputMismatchException e) {
-                System.out.println("\nNão pode utilizar letras ou caracteres.\n  [Escolha: 1, 2, 3 ou 4]\n");
-                sc.nextLine();
+                opcao = Integer.parseInt(entrada.trim());
+            } catch (NumberFormatException e) {
+                System.out.println("\nNão pode utilizar letras ou caracteres.\n  [Escolha: 1, 2, 3, ou 4]\n");
                 continue;
             }
             switch (opcao){
