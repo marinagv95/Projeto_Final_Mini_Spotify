@@ -6,8 +6,8 @@ public class Podcast extends Midia{
 
     private TipoMidia tipo;
 
-    public Podcast(String titulo, String artista, int duracao, String genero, TipoMidia tipo) {
-        super(titulo, artista, duracao, genero);
+    public Podcast(String titulo, String artista, int duracao, TipoMidia tipo) {
+        super(titulo, artista, duracao);
         this.tipo = TipoMidia.PODCAST;
     }
 
@@ -21,8 +21,8 @@ public class Podcast extends Midia{
 
     @Override
     public String toString() {
-        return "Podcast{" +
-                "tipo=" + tipo +
-                '}';
+        return "Podcast: " + getTitulo() + " | Host: " + getArtista() +
+                " | Duração: " + getDuracao() + " min";
     }
+
 }

@@ -7,8 +7,8 @@ public class Musica extends Midia{
     private TipoMidia tipo;
     private GeneroMusical generoMusical;
 
-    public Musica(String titulo, String artista, int duracao, String genero, TipoMidia tipo, GeneroMusical generoMusical) {
-        super(titulo, artista, duracao, genero);
+    public Musica(String titulo, String artista, int duracao,  TipoMidia tipo, GeneroMusical generoMusical) {
+        super(titulo, artista, duracao);
         this.tipo = TipoMidia.MUSICA;
         this.generoMusical = generoMusical;
     }
@@ -31,8 +31,8 @@ public class Musica extends Midia{
 
     @Override
     public String toString() {
-        return "Musica{" +
-                "tipo=" + tipo +
-                '}';
+        return "Música: " + getTitulo() + " | Artista: " + getArtista() +
+                " | Duração: " + getDuracao() + " min | Gênero: " + getGeneroMusical();
     }
+
 }

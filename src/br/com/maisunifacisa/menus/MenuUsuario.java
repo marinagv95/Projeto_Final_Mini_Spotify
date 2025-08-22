@@ -34,7 +34,7 @@ public class MenuUsuario {
                     submenuPlaylistUsuario.exibirSubmenuPlaylist(sc, sistema);
                     break;
                 case 3:
-                    submenuMidiasUsuario.exibirSubmenuMidias(sc);
+                    submenuMidiasUsuario.exibirSubmenuMidias(sc, sistema);
                     break;
                 case 4:
                     sistema.listarPlaylistUsuario(sc);

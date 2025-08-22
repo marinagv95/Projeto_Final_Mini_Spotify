@@ -5,8 +5,8 @@ import br.com.maisunifacisa.enums.TipoMidia;
 public class Audiobook extends Midia{
     private TipoMidia tipo;
 
-    public Audiobook(String titulo, String artista, int duracao, String genero, TipoMidia tipo) {
-        super(titulo, artista, duracao, genero);
+    public Audiobook(String titulo, String artista, int duracao, TipoMidia tipo) {
+        super(titulo, artista, duracao);
         this.tipo = TipoMidia.AUDIOBOOK;
     }
 
@@ -20,8 +20,8 @@ public class Audiobook extends Midia{
 
     @Override
     public String toString() {
-        return "Audiobook{" +
-                "tipo=" + tipo +
-                '}';
+        return "Audiobook: " + getTitulo() + " | Autor: " + getArtista() +
+                " | Duração: " + getDuracao() + " min";
     }
+
 }

@@ -1,6 +1,9 @@
 package br.com.maisunifacisa.models;
 
 
+import br.com.maisunifacisa.enums.GeneroMusical;
+import br.com.maisunifacisa.enums.TipoMidia;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -9,6 +12,7 @@ public class Sistema {
     ArrayList<Usuario> usuarios = new ArrayList<>();
     ArrayList<Playlist> playlists = new ArrayList<>();
     ArrayList<Musica> musicas = new ArrayList<>();
+    ArrayList<Midia> midias = new ArrayList<>();
 
     public Sistema(ArrayList<Usuario> usuarios, ArrayList<Playlist> playlists, ArrayList<Musica> musicas) {
         this.usuarios = usuarios;
@@ -181,7 +185,6 @@ public class Sistema {
         String novoNomePlaylist = sc.nextLine();
 
 
-
         atualizarNomePlaylist(emailUsuario, nomePlaylist, novoNomePlaylist);
 
     }
@@ -193,11 +196,81 @@ public class Sistema {
                 playlist.setNome(novoNomePlaylist);
                 System.out.println("Nome atualizado com sucesso!");
 
-            } else{
+            } else {
                 System.out.println("Playlist não encontrada para esse Usuário!");
             }
         }
     }
+
+
+    //Colocar Exception
+    public void criarMidia(Scanner sc) {
+        System.out.print("Digite o nome do Título: ");
+        String titulo = sc.nextLine();
+
+        System.out.print("Digite o nome do Artista: ");
+        String artista = sc.nextLine();
+
+        System.out.print("Digite a duração da Mídia: ");
+        int duracao = sc.nextInt();
+        sc.nextLine();
+
+        System.out.println("\nSelecione o gênero musical:");
+        System.out.println("1 - Rock");
+        System.out.println("2 - Pop");
+        System.out.println("3 - MPB");
+        System.out.println("4 - Jazz");
+        System.out.println("5 - Clássica");
+        System.out.println("6 - Outro");
+        System.out.print("Digite uma Opção: ");
+        int opcaoGenero = sc.nextInt();
+        sc.nextLine();
+
+        GeneroMusical generoMusical = GeneroMusical.OUTRO;
+        switch (opcaoGenero) {
+            case 1: generoMusical = GeneroMusical.ROCK; break;
+            case 2: generoMusical = GeneroMusical.POP; break;
+            case 3: generoMusical = GeneroMusical.MPB; break;
+            case 4: generoMusical = GeneroMusical.JAZZ; break;
+            case 5: generoMusical = GeneroMusical.CLASSICA; break;
+            case 6: generoMusical = GeneroMusical.OUTRO; break;
+            default: System.out.println("Opção inválida. Definido como OUTRO.");
+        }
+
+        System.out.println("\nQual o tipo da mídia?");
+        System.out.println("1 - Música");
+        System.out.println("2 - Podcast");
+        System.out.println("3 - Audiobook");
+        System.out.print("Digite uma Opção: ");
+        int opcaoMidia = sc.nextInt();
+        sc.nextLine();
+
+        if (opcaoMidia == 1) {
+            Midia midia = new Musica(titulo, artista, duracao, TipoMidia.MUSICA, generoMusical);
+            criarMidia(midia);
+        } else if (opcaoMidia == 2) {
+            Midia midia = new Podcast(titulo, artista, duracao, TipoMidia.PODCAST);
+            criarMidia(midia);
+        } else if (opcaoMidia == 3) {
+            Midia midia = new Audiobook(titulo, artista, duracao, TipoMidia.AUDIOBOOK);
+            criarMidia(midia);
+        } else {
+            System.out.println("Opção inválida. Nenhuma mídia criada.");
+        }
+    }
+
+    public void criarMidia(Midia midia) {
+        midias.add(midia);
+    }
+
+    public String listarTodasAsMidias() {
+        StringBuilder retorno = new StringBuilder();
+        for (int i = 0; i < midias.size(); i++) {
+            retorno.append(i + 1).append(" - ").append(midias.get(i).toString()).append("\n");
+        }
+        return retorno.toString();
+    }
+
 
 
 }

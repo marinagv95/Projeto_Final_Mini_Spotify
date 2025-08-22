@@ -7,15 +7,15 @@ public abstract class Midia {
     private String titulo;
     private String artista;
     private int duracao;
-    private String genero;
 
 
 
-    public Midia(String titulo, String artista, int duracao, String genero) {
+
+    public Midia(String titulo, String artista, int duracao) {
         this.titulo = titulo;
         this.artista = artista;
         this.duracao = duracao;
-        this.genero = genero;
+
 
     }
 
@@ -43,12 +43,9 @@ public abstract class Midia {
         this.duracao = duracao;
     }
 
-    public String getGenero() {
-        return genero;
-    }
 
     public void setGenero(String genero) {
-        this.genero = genero;
+
     }
 
 
@@ -58,7 +55,6 @@ public abstract class Midia {
                 "titulo='" + titulo + '\'' +
                 ", artista='" + artista + '\'' +
                 ", duracao=" + duracao +
-                ", genero='" + genero + '\'' +
                 '}';
     }
 }
