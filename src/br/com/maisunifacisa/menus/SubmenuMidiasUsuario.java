@@ -20,7 +20,6 @@ public class SubmenuMidiasUsuario {
             switch (opcao) {
                 case 1:
                     sistema.criarMidia(sc);
-
                     break;
                 case 2:
                     sistema.removerMusica(sc);

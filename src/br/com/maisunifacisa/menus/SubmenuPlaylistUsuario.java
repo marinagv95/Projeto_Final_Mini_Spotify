@@ -1,8 +1,8 @@
 package br.com.maisunifacisa.menus;
 
-import br.com.maisunifacisa.models.Playlist;
+
 import br.com.maisunifacisa.models.Sistema;
-import br.com.maisunifacisa.models.Usuario;
+
 
 import java.util.Scanner;
 
