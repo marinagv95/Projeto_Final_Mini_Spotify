@@ -3,13 +3,11 @@ package br.com.maisunifacisa.models;
 
 import br.com.maisunifacisa.enums.GeneroMusical;
 import br.com.maisunifacisa.enums.TipoMidia;
-import br.com.maisunifacisa.excecao.EmailInvalidoException;
-import br.com.maisunifacisa.excecao.OpcaoInvalidaException;
-import br.com.maisunifacisa.excecao.PlaylistVaziaException;
-import br.com.maisunifacisa.excecao.UsuarioInvalidoException;
+import br.com.maisunifacisa.excecao.*;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -18,6 +16,7 @@ public class Sistema {
     ArrayList<Usuario> usuarios = new ArrayList<>();
     ArrayList<Playlist> playlists = new ArrayList<>();
     ArrayList<Midia> midias = new ArrayList<>();
+    ArrayList<Musica> musicas = new ArrayList<>();
 
     public Sistema(ArrayList<Usuario> usuarios, ArrayList<Playlist> playlists, ArrayList<Musica> musicas) {
         this.usuarios = usuarios;
@@ -332,12 +331,18 @@ public class Sistema {
 
     public GeneroMusical escolherGeneroMusical(int opcaoGenero) {
         switch (opcaoGenero) {
-            case 1: return GeneroMusical.ROCK;
-            case 2: return GeneroMusical.POP;
-            case 3: return GeneroMusical.MPB;
-            case 4: return GeneroMusical.JAZZ;
-            case 5: return GeneroMusical.CLASSICA;
-            case 6: return GeneroMusical.OUTRO;
+            case 1:
+                return GeneroMusical.ROCK;
+            case 2:
+                return GeneroMusical.POP;
+            case 3:
+                return GeneroMusical.MPB;
+            case 4:
+                return GeneroMusical.JAZZ;
+            case 5:
+                return GeneroMusical.CLASSICA;
+            case 6:
+                return GeneroMusical.OUTRO;
             default:
                 System.out.println("Opção inválida. Definido como OUTRO.");
                 return GeneroMusical.OUTRO;
@@ -349,6 +354,10 @@ public class Sistema {
     }
 
     public String listarTodasAsMidias() {
+        if (midias.isEmpty()) {
+            return "Nenhuma mídia cadastrada.";
+        }
+
         StringBuilder retorno = new StringBuilder();
         for (int i = 0; i < midias.size(); i++) {
             retorno.append(i + 1).append(" - ").append(midias.get(i).toString()).append("\n");
@@ -357,15 +366,119 @@ public class Sistema {
     }
 
 
+    public void buscarMidia(Scanner sc) {
+        try {
+            System.out.println("Como deseja buscar a mídia?");
+            System.out.println("1 - Por título");
+            System.out.println("2 - Por artista");
+            System.out.println("3 - Por gênero musical");
+            System.out.print("Digite uma opção: ");
+            int opcao = sc.nextInt();
+            sc.nextLine();
 
-
-
-    public Midia buscarMidiaPorTitulo(String titulo){
-    for (Midia midia: midias){
-        if(midia.getTitulo().equals(titulo))
-            return midia;
+            if (opcao == 1) {
+                buscarPorTitulo(sc);
+            } else if (opcao == 2) {
+                buscarPorArtista(sc);
+            } else if (opcao == 3) {
+                buscarPorGenero(sc);
+            } else {
+                throw new OpcaoInvalidaException("Opção inválida.");
+            }
+        } catch (OpcaoInvalidaException e) {
+            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Erro inesperado. Tente novamente.");
+            sc.nextLine();
+        }
     }
-    return null;
+
+
+    private void buscarPorTitulo(Scanner sc) {
+        System.out.print("Digite o Título da mídia: ");
+        String titulo = sc.nextLine();
+
+        List<Midia> resultado = new ArrayList<>();
+        for (Midia midia : midias) {
+            if (midia.getTitulo().equalsIgnoreCase(titulo)) {
+                resultado.add(midia);
+            }
+        }
+
+        if (!resultado.isEmpty()) {
+            System.out.println("Mídias encontradas:");
+            for (Midia midia : resultado) {
+                System.out.println(midia);
+            }
+        } else {
+            System.out.println("Nenhuma mídia encontrada com esse título.");
+        }
+    }
+
+    private void buscarPorArtista(Scanner sc) {
+        System.out.print("Digite o nome do Artista: ");
+        String artista = sc.nextLine();
+
+        List<Midia> resultado = new ArrayList<>();
+        for (Midia midia : midias) {
+            if (midia.getArtista().equalsIgnoreCase(artista)) {
+                resultado.add(midia);
+            }
+        }
+
+        if (!resultado.isEmpty()) {
+            System.out.println("Mídias encontradas:");
+            for (Midia midia : resultado) {
+                System.out.println(midia);
+            }
+        } else {
+            System.out.println("Nenhuma mídia encontrada para esse artista.");
+        }
+    }
+
+
+    private void buscarPorGenero(Scanner sc) {
+        try {
+            System.out.println("Escolha o gênero:");
+            System.out.println("1 - Rock");
+            System.out.println("2 - Pop");
+            System.out.println("3 - MPB");
+            System.out.println("4 - Jazz");
+            System.out.println("5 - Clássica");
+            System.out.println("6 - Outro");
+            System.out.print("Digite uma opção: ");
+            int opcaoGenero = sc.nextInt();
+            sc.nextLine();
+
+            GeneroMusical genero = escolherGeneroMusical(opcaoGenero);
+            if (genero == null) {
+                System.out.println("Gênero inválido.");
+                return;
+            }
+
+            List<Musica> resultado = new ArrayList<>();
+            for (Midia midia : midias) {
+                if (midia instanceof Musica) {
+                    Musica musica = (Musica) midia;
+                    if (musica.getGeneroMusical().equals(genero)) {
+                        resultado.add(musica);
+                    }
+                }
+            }
+
+            if (resultado.isEmpty()) {
+                System.out.println("Nenhuma música encontrada para esse gênero.");
+            } else {
+                System.out.println("Músicas encontradas:");
+                for (Musica musica : resultado) {
+                    System.out.println(musica);
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println("Erro inesperado. Tente novamente.");
+            sc.nextLine();
+        }
     }
 
 
