@@ -1,3 +1,4 @@
+import br.com.maisunifacisa.menus.MenuCatalogo;
 import br.com.maisunifacisa.menus.MenuUsuario;
 import br.com.maisunifacisa.models.Sistema;
 
@@ -10,6 +11,7 @@ public class Main {
         Sistema sistema = new Sistema();
 
         MenuUsuario menuUsuario = new MenuUsuario();
+        MenuCatalogo menuCatalogo = new MenuCatalogo();
 
         int opcao = -1;
         while (opcao != 3) {
@@ -26,7 +28,7 @@ try{
                     menuUsuario.exibirMenuUsuario(sc, sistema);
                     break;
                 case 2:
-                    System.out.println("Catalogo");
+                    menuCatalogo.exibirMenuCatalogo(sc, sistema);
 
                     break;
                 case 3:

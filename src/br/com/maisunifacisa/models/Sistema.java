@@ -10,6 +10,7 @@ import br.com.maisunifacisa.excecao.UsuarioInvalidoException;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -135,7 +136,7 @@ public class Sistema {
     }
 
 
-    public void criarPlaylist(Scanner sc) throws UsuarioInvalidoException{
+    public void criarPlaylist(Scanner sc) throws UsuarioInvalidoException {
         System.out.print("Digite um nome para a Playlist: ");
         String nomePlaylist = sc.nextLine();
         System.out.print("Digite o e-mail do usuário para atribuir a playlist: ");
@@ -156,7 +157,6 @@ public class Sistema {
             throw new UsuarioInvalidoException("Usuário não encontrado!");
         }
     }
-
 
 
     public void adicionarPlaylist(Playlist playlist) {
@@ -216,13 +216,12 @@ public class Sistema {
         }
     }
 
-
     public void criarMidia(Scanner sc) {
         String titulo;
         String artista;
-        int duracao = 0;
+        int duracao;
         GeneroMusical generoMusical = null;
-        int opcaoMidia = 0;
+        int opcaoMidia;
 
         System.out.print("Digite o nome do Título: ");
         titulo = sc.nextLine();
@@ -230,20 +229,73 @@ public class Sistema {
         System.out.print("Digite o nome do Artista: ");
         artista = sc.nextLine();
 
-        while (true) {
+        duracao = lerDuracao(sc);
+
+        opcaoMidia = escolherTipoMidia(sc);
+
+        if (opcaoMidia == 1) {
+            generoMusical = escolherGenero(sc);
+        }
+
+        try {
+            criarMidia(opcaoMidia, titulo, artista, duracao, generoMusical);
+            System.out.println("Mídia criada com sucesso!");
+        } catch (Exception e) {
+            System.out.println("Algo deu errado.");
+        }
+    }
+
+    private int lerDuracao(Scanner sc) {
+        int duracao = 0;
+        boolean valido = false;
+
+        while (!valido) {
             try {
                 System.out.print("Digite a duração da Mídia: ");
                 duracao = sc.nextInt();
                 sc.nextLine();
                 if (duracao <= 0) throw new InputMismatchException();
-                break;
+                valido = true;
             } catch (InputMismatchException e) {
                 System.out.println("Digite uma duração válida!");
-                sc.nextLine(); // limpa entrada inválida
+                sc.nextLine();
             }
         }
+        return duracao;
+    }
 
-        while (true) {
+    private int escolherTipoMidia(Scanner sc) {
+        int opcao = 0;
+        boolean valido = false;
+
+        while (!valido) {
+            try {
+                System.out.println("Qual o tipo da mídia?");
+                System.out.println("1 - Música");
+                System.out.println("2 - Podcast");
+                System.out.println("3 - Audiobook");
+                System.out.print("Digite uma Opção: ");
+                opcao = sc.nextInt();
+                sc.nextLine();
+                if (opcao < 1 || opcao > 3)
+                    throw new OpcaoInvalidaException("Opção de tipo de mídia inválida!");
+                valido = true;
+            } catch (OpcaoInvalidaException e) {
+                System.out.println("Erro: " + e.getMessage());
+            } catch (InputMismatchException e) {
+                System.out.println("Digite uma opção válida!");
+                sc.nextLine();
+            }
+        }
+        return opcao;
+    }
+
+    private GeneroMusical escolherGenero(Scanner sc) {
+        int opcaoGenero = 0;
+        GeneroMusical genero = GeneroMusical.OUTRO;
+        boolean valido = false;
+
+        while (!valido) {
             try {
                 System.out.println("Selecione o gênero musical:");
                 System.out.println("1 - Rock");
@@ -253,96 +305,44 @@ public class Sistema {
                 System.out.println("5 - Clássica");
                 System.out.println("6 - Outro");
                 System.out.print("Digite uma Opção: ");
-                int opcaoGenero = sc.nextInt();
+                opcaoGenero = sc.nextInt();
                 sc.nextLine();
-                generoMusical = escolherGeneroMusical(opcaoGenero);
-                if (generoMusical == null) throw new OpcaoInvalidaException("Opção de gênero inválida!");
-                break;
-            } catch (OpcaoInvalidaException e) {
-                System.out.println("Erro: " + e.getMessage());
+                genero = escolherGeneroMusical(opcaoGenero);
+                valido = true;
             } catch (InputMismatchException e) {
-                System.out.println("Digite uma opção válida!");
+                System.out.print("Digite uma opção válida!");
                 sc.nextLine();
             }
         }
-
-        while (true) {
-            try {
-                System.out.println("Qual o tipo da mídia?");
-                System.out.println("1 - Música");
-                System.out.println("2 - Podcast");
-                System.out.println("3 - Audiobook");
-                System.out.print("Digite uma Opção: ");
-                opcaoMidia = sc.nextInt();
-                sc.nextLine();
-                if (opcaoMidia < 1 || opcaoMidia > 3)
-                    throw new OpcaoInvalidaException("Opção de tipo de mídia inválida!");
-                break;
-            } catch (OpcaoInvalidaException e) {
-                System.out.println("Erro: " + e.getMessage());
-            } catch (InputMismatchException e) {
-                System.out.println("Digite uma opção válida!");
-                sc.nextLine();
-            }
-        }
-
-        try {
-
-        criarMidia(opcaoMidia, titulo, artista, duracao, generoMusical);
-        System.out.println("Mídia criada com sucesso!");
-        } catch (Exception e){
-            System.out.println("Algo deu errado.");
-        }
+        return genero;
     }
-
 
     public void criarMidia(int opcaoMidia, String titulo, String artista, int duracao, GeneroMusical generoMusical) {
-        try {
-            if (opcaoMidia == 1) {
-                Midia midia = new Musica(titulo, artista, duracao, TipoMidia.MUSICA, generoMusical);
-                criarMidia(midia);
-            } else if (opcaoMidia == 2) {
-                Midia midia = new Podcast(titulo, artista, duracao, TipoMidia.PODCAST);
-                criarMidia(midia);
-            } else if (opcaoMidia == 3) {
-                Midia midia = new Audiobook(titulo, artista, duracao, TipoMidia.AUDIOBOOK);
-                criarMidia(midia);
-            }
-
-        } catch (InputMismatchException e) {
-            System.out.println("Digite uma opção válida!");
+        if (opcaoMidia == 1) {
+            Midia midia = new Musica(titulo, artista, duracao, TipoMidia.MUSICA, generoMusical);
+            criarMidia(midia);
+        } else if (opcaoMidia == 2) {
+            Midia midia = new Podcast(titulo, artista, duracao, TipoMidia.PODCAST);
+            criarMidia(midia);
+        } else if (opcaoMidia == 3) {
+            Midia midia = new Audiobook(titulo, artista, duracao, TipoMidia.AUDIOBOOK);
+            criarMidia(midia);
         }
     }
-
 
     public GeneroMusical escolherGeneroMusical(int opcaoGenero) {
-
-        GeneroMusical generoMusical = GeneroMusical.OUTRO;
         switch (opcaoGenero) {
-            case 1:
-                generoMusical = GeneroMusical.ROCK;
-                break;
-            case 2:
-                generoMusical = GeneroMusical.POP;
-                break;
-            case 3:
-                generoMusical = GeneroMusical.MPB;
-                break;
-            case 4:
-                generoMusical = GeneroMusical.JAZZ;
-                break;
-            case 5:
-                generoMusical = GeneroMusical.CLASSICA;
-                break;
-            case 6:
-                generoMusical = GeneroMusical.OUTRO;
-                break;
+            case 1: return GeneroMusical.ROCK;
+            case 2: return GeneroMusical.POP;
+            case 3: return GeneroMusical.MPB;
+            case 4: return GeneroMusical.JAZZ;
+            case 5: return GeneroMusical.CLASSICA;
+            case 6: return GeneroMusical.OUTRO;
             default:
                 System.out.println("Opção inválida. Definido como OUTRO.");
+                return GeneroMusical.OUTRO;
         }
-        return generoMusical;
     }
-
 
     public void criarMidia(Midia midia) {
         midias.add(midia);
@@ -356,6 +356,20 @@ public class Sistema {
         return retorno.toString();
     }
 
+
+
+
+
+    public Midia buscarMidiaPorTitulo(String titulo){
+    for (Midia midia: midias){
+        if(midia.getTitulo().equals(titulo))
+            return midia;
+    }
+    return null;
+    }
+
+
+
     public Playlist buscarPlaylistPorNome(String nomePlaylist) {
         for (Playlist playlist : playlists) {
             if (playlist.getNome().equalsIgnoreCase(nomePlaylist)) {
@@ -365,17 +379,6 @@ public class Sistema {
         return null;
     }
 
-
-    public Musica buscarMusicaPorTitulo(String tituloMusica) {
-        for (Playlist playlist : playlists) {
-            for (Musica musica : playlist.getMusicas()) {
-                if (musica.getTitulo().equalsIgnoreCase(tituloMusica)) {
-                    return musica;
-                }
-            }
-        }
-        return null;
-    }
 
     public void adicionarMusicaAPlaylist(Scanner sc) {
         System.out.print("Digite o título da música para adicionar: ");
@@ -446,6 +449,10 @@ public class Sistema {
 
 
 }
+
+
+
+
 
 
 
