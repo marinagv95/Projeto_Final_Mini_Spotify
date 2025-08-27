@@ -1,0 +1,296 @@
+==================================================
+ COMPARAÇÃO ENTRE O EXEMPLO DO CHATGPT E O CÓDIGO DO GITHUB
+==================================================
+
+1. Organização do Projeto
+- No exemplo do ChatGPT, tudo ficou em um único arquivo, simples e direto,
+  apenas para demonstrar os conceitos de POO.
+- No projeto do GitHub, o código foi separado em pacotes
+  (models, menus, enums, excecao...), deixando a estrutura muito mais
+  organizada e com cara de sistema real.
+
+--------------------------------------------------
+
+2. Tratamento de Exceções
+- No exemplo do ChatGPT foram usadas exceções genéricas (Exception),
+  o que funciona, mas não mostra claramente o erro.
+- No GitHub existem exceções personalizadas, como
+  EmailInvalidoException e PlaylistVaziaException, o que deixa o
+  tratamento de erros mais claro e detalhado.
+
+--------------------------------------------------
+
+3. Interação com o Usuário
+- No exemplo do ChatGPT a interação acontece apenas com
+  System.out.println no main, servindo como um protótipo básico.
+- No GitHub existem menus interativos (MenuCatalogo, MenuUsuario...),
+  o que torna a navegação mais prática e intuitiva.
+
+--------------------------------------------------
+
+4. Uso de Coleções (List, Map, Set)
+- Tanto no exemplo do ChatGPT quanto no projeto do GitHub foram
+  utilizadas List e Map.
+- No GitHub também aparece o uso de Set, que ajuda a evitar
+  duplicação de dados.
+
+--------------------------------------------------
+
+5. Herança e Polimorfismo
+- Em ambos os casos existe uma classe base (Midia) e subclasses
+  (Musica, Podcast, Audiobook).
+- No GitHub também são usados enums (TipoMidia e GeneroMusical),
+  organizando melhor os tipos de mídia.
+
+--------------------------------------------------
+
+6. Enumerações
+- No exemplo do ChatGPT foi criado apenas um enum Genero.
+- No GitHub existem dois enums, separando o tipo da mídia
+  e o gênero musical, deixando o sistema mais claro.
+
+--------------------------------------------------
+
+==================================================
+ CONCLUSÃO:
+==================================================
+
+- O exemplo do ChatGPT é ótimo para entender os conceitos básicos
+  de orientação a objetos e coleções de forma simples e direta.
+
+- Já o projeto do GitHub é mais completo e profissional,
+  trazendo exceções personalizadas, pacotes organizados
+  e menus interativos.
+
+- Se a ideia for apenas mostrar um protótipo rápido,
+  o exemplo do ChatGPT já atende bem.
+  Mas se o objetivo for algo mais próximo de um sistema real,
+  a versão do GitHub é a mais adequada.
+
+
+
+
+Código do ChatGPT:
+==================================================
+
+package miniSpotify;
+
+import java.util.*;
+
+// Enum de Gêneros
+enum Genero {
+    ROCK, POP, MPB, JAZZ, CLASSICA, ELETRONICA, HIPHOP
+}
+
+// Classe base para mídias
+abstract class Midia {
+    private String titulo;
+    private String artista;
+    private int duracao; // em segundos
+    private Genero genero;
+
+    public Midia(String titulo, String artista, int duracao, Genero genero) {
+        this.titulo = titulo;
+        this.artista = artista;
+        this.duracao = duracao;
+        this.genero = genero;
+    }
+
+    public String getTitulo() { return titulo; }
+    public String getArtista() { return artista; }
+    public int getDuracao() { return duracao; }
+    public Genero getGenero() { return genero; }
+
+    public abstract String getTipo();
+
+    @Override
+    public String toString() {
+        return "[" + getTipo() + "] " + titulo + " - " + artista +
+               " (" + duracao + "s, " + genero + ")";
+    }
+}
+
+// Subclasses de mídias
+class Musica extends Midia {
+    public Musica(String titulo, String artista, int duracao, Genero genero) {
+        super(titulo, artista, duracao, genero);
+    }
+    @Override
+    public String getTipo() { return "Música"; }
+}
+
+class Podcast extends Midia {
+    public Podcast(String titulo, String artista, int duracao, Genero genero) {
+        super(titulo, artista, duracao, genero);
+    }
+    @Override
+    public String getTipo() { return "Podcast"; }
+}
+
+class Audiobook extends Midia {
+    public Audiobook(String titulo, String artista, int duracao, Genero genero) {
+        super(titulo, artista, duracao, genero);
+    }
+    @Override
+    public String getTipo() { return "Audiobook"; }
+}
+
+// Classe Playlist
+class Playlist {
+    private String nome;
+    private List<Midia> midias = new ArrayList<>();
+
+    public Playlist(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNome() { return nome; }
+
+    public void adicionarMidia(Midia midia) {
+        midias.add(midia);
+    }
+
+    public void removerMidia(String titulo) throws Exception {
+        Optional<Midia> midia = midias.stream()
+                .filter(m -> m.getTitulo().equalsIgnoreCase(titulo))
+                .findFirst();
+
+        if (midia.isPresent()) {
+            midias.remove(midia.get());
+        } else {
+            throw new Exception("Mídia não encontrada na playlist!");
+        }
+    }
+
+    public int calcularDuracaoTotal() {
+        return midias.stream().mapToInt(Midia::getDuracao).sum();
+    }
+
+    public void exibirPlaylist() {
+        System.out.println("Playlist: " + nome);
+        if (midias.isEmpty()) {
+            System.out.println("  (Vazia)");
+        } else {
+            midias.forEach(m -> System.out.println("  " + m));
+            System.out.println("Duração total: " + calcularDuracaoTotal() + "s");
+        }
+    }
+}
+
+// Classe Usuário
+class Usuario {
+    private String nome;
+    private String email;
+    private Map<String, Playlist> playlists = new HashMap<>();
+
+    public Usuario(String nome, String email) {
+        this.nome = nome;
+        this.email = email;
+    }
+
+    public String getNome() { return nome; }
+    public String getEmail() { return email; }
+
+    public void criarPlaylist(String nome) {
+        playlists.put(nome, new Playlist(nome));
+    }
+
+    public void removerPlaylist(String nome) throws Exception {
+        if (playlists.containsKey(nome)) {
+            playlists.remove(nome);
+        } else {
+            throw new Exception("Playlist não encontrada!");
+        }
+    }
+
+    public Playlist getPlaylist(String nome) throws Exception {
+        if (playlists.containsKey(nome)) {
+            return playlists.get(nome);
+        } else {
+            throw new Exception("Playlist não encontrada!");
+        }
+    }
+
+    public void exibirPlaylists() {
+        System.out.println("Playlists de " + nome + ":");
+        if (playlists.isEmpty()) {
+            System.out.println("  Nenhuma playlist criada.");
+        } else {
+            playlists.values().forEach(Playlist::exibirPlaylist);
+        }
+    }
+}
+
+// Catálogo de mídias
+class Catalogo {
+    private List<Midia> midias = new ArrayList<>();
+
+    public void adicionarMidia(Midia midia) {
+        midias.add(midia);
+    }
+
+    public void buscarPorTitulo(String titulo) {
+        midias.stream()
+                .filter(m -> m.getTitulo().equalsIgnoreCase(titulo))
+                .forEach(System.out::println);
+    }
+
+    public void buscarPorArtista(String artista) {
+        midias.stream()
+                .filter(m -> m.getArtista().equalsIgnoreCase(artista))
+                .forEach(System.out::println);
+    }
+
+    public void buscarPorGenero(Genero genero) {
+        midias.stream()
+                .filter(m -> m.getGenero() == genero)
+                .forEach(System.out::println);
+    }
+
+    public void exibirCatalogo() {
+        System.out.println("Catálogo de Mídias:");
+        midias.forEach(System.out::println);
+    }
+}
+
+// Classe principal
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Catalogo catalogo = new Catalogo();
+
+            // Adicionando mídias
+            catalogo.adicionarMidia(new Musica("Bohemian Rhapsody", "Queen", 360, Genero.ROCK));
+            catalogo.adicionarMidia(new Musica("Garota de Ipanema", "Tom Jobim", 200, Genero.MPB));
+            catalogo.adicionarMidia(new Podcast("Flow", "Flow Studio", 5400, Genero.POP));
+            catalogo.adicionarMidia(new Audiobook("Dom Casmurro", "Machado de Assis", 7200, Genero.CLASSICA));
+
+            catalogo.exibirCatalogo();
+
+            // Criando usuário
+            Usuario user = new Usuario("Marina", "marina@email.com");
+
+            // Criando playlists
+            user.criarPlaylist("Favoritas");
+            Playlist fav = user.getPlaylist("Favoritas");
+
+            fav.adicionarMidia(new Musica("Bohemian Rhapsody", "Queen", 360, Genero.ROCK));
+            fav.adicionarMidia(new Musica("Garota de Ipanema", "Tom Jobim", 200, Genero.MPB));
+
+            fav.exibirPlaylist();
+
+            // Testando remoção
+            fav.removerMidia("Garota de Ipanema");
+            fav.exibirPlaylist();
+
+            user.exibirPlaylists();
+
+            // Busca no catálogo
+            System.out.println("\nBusca por gênero ROCK:");
+            catalogo.buscarPorGenero(Genero.ROCK);
+
+        } catch (Exception e) {
+            System.out.println("Erro: " + e.getMessage());
+        }
+    }
+}
